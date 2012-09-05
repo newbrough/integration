@@ -1,0 +1,3 @@
+yum update -y rsyslog
+echo '*.* @graylog.oceanobservatories.org' > /etc/rsyslog.d/graylog2.conf
+/etc/init.d/rsyslog restart

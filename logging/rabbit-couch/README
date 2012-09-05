@@ -1,0 +1,10 @@
+To capture rabbit, couch and elasticsearch logfiles and forward to graylog, logstash is used. 
+It monitors the application logfiles, parses the entries into GELF records and forwards to a graylog server.
+
+DOWNLOAD: wget http://semicomplete.com/files/logstash/logstash-1.1.1-monolithic.jar 
+EXECUTE: java -jar logstash-1.1.1-monolithic.jar agent -f logstash.conf
+DEBUG: java -jar logstash-1.1.1-monolithic.jar agent -f logstash.conf -vvv
+DEBUG: see also notes in logstash.conf to test messages from STDIN and show resulting GELF on STDOUT
+
+TODO: Currently handles rabbit and couchdb entries, but need to also handle elasticsearch logs. 
+TODO: Create CentOS service script to start before couch/rabbit and stop after.

@@ -1,0 +1,50 @@
+#!/bin/sh
+#
+# graylog2-server:   graylog2 message collector
+#
+# chkconfig: - 98 02
+# description:  This daemon listens for syslog and GELF messages and stores them in mongodb
+#
+export MONGOID_HOST=localhost
+export MONGOID_PORT=27017
+export MONGOID_USERNAME=coi
+export MONGOID_PASSWORD=coi
+export MONGOID_DATABASE=graylog2
+
+CMD=$1
+
+start() {
+    echo "Starting graylog2-gui ..."
+    cd /graylog2/graylog2-web-interface-0.9.6
+    export TZ=UTC
+    nohup script/rails server -e production > /var/log/graylog2-gui.log 2>&1 &
+}
+
+stop() {
+    PID=`pgrep ruby`
+    echo "Stopping graylog2-gui ($PID) ..."
+    kill $PID
+    sleep 1
+    kill -9 $PID
+}
+
+restart() {
+    echo "Restarting graylog2-gui ..."
+    stop
+    start
+}
+
+case "$CMD" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage $0 {start|stop|restart}"
+        RETVAL=1
+esac

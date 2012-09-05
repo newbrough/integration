@@ -1,0 +1,4 @@
+Logging from most python code is sent to graylog using the graypy logging handler.
+This include COI, CEI and MI code.
+
+EXCEPTION: gumstix may not have an active network connection, so graypy messages would be lost.

@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+# graylog:   manage all services related to graylog2
+#
+# NOTE: added as a convenient way to start/stop other services.  use manually, but do not add to system startup/shutdown.  add individual services instead.
+#
+CMD=$1
+
+start() {
+    /etc/init.d/mongod start
+    /etc/init.d/elasticsearch start
+    /etc/init.d/graylog2-server start
+    /etc/init.d/graylog2-gui start
+}
+
+stop() {
+    /etc/init.d/graylog2-gui stop
+    /etc/init.d/graylog2-server stop
+    /etc/init.d/elasticsearch stop
+    /etc/init.d/mongod stop
+}
+
+restart() {
+    stop
+    start
+}
+
+case "$CMD" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage $0 {start|stop|restart}"
+        RETVAL=1
+esac

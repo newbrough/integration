@@ -1,0 +1,8 @@
+Log messages on gumstix post two problems:
+- the network may be unavailable for long periods of time, so log message can't be sent directly to graylog;
+- the SD card has limited write capacity, so constantly writing small log messages may contribute to HW failure
+
+Possible solutions:
+- when logging to files, a special logger can cache messages and only perform writes on (512-byte) block boundaries
+- files can be written in a special GELF format to preserve extra fields added for graylog
+- logstash can read and forward these messages over TCP when the network is active

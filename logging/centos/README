@@ -1,0 +1,3 @@
+Install script to forward standard CentOS syslog messages to remote graylog server.
+
+Change hostname in "echo" line to point to different graylog server.

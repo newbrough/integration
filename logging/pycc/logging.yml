@@ -1,0 +1,10 @@
+### NOTE this is an exerpt only, not a complete configuration file
+#
+handlers:
+  gray:
+      class: graypy.GELFHandler
+      host: graylog.oceanobservatories.org
+loggers:
+  pyon:
+    handlers: [gray, file]
+    level: INFO

@@ -1,0 +1,17 @@
+
+The install script in this folder will install graylog but does not use the latest configuration files.
+Be sure to copy the remaining files under etc to the corresponding OS folders.
+
+TODO: make sure to change the directories in the /etc/init.d/ files to match the install directory.
+
+Also it will not install the OS services to automatically start/stop graylog.
+
+To start manually, run:
+	/etc/init.d/graylog start
+
+To make the OS start explicitly when it boots, run:
+	chkconfig --add mongod
+	chkconfig --add elasticsearch
+	chkconfig --add graylog2-server
+	chkconfig --add graylog2-gui
+
