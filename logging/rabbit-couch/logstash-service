@@ -1,0 +1,59 @@
+#! /bin/sh
+#
+# logstash-server:   logstash message collector
+#
+# chkconfig: - 98 02
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description:  This daemon parses logfiles and forwards contents to graylog2
+#
+CMD=$1
+LOGFILE=/var/log/logstash.log
+LOGSTASH_HOME=/usr/local/logstash
+
+start()
+{
+    # NOTE: you MUST be in the directory with the jar file or ruby breaks
+    cd $LOGSTASH_HOME
+
+    # NOTE: add -Xss -Xmx or other java settings here
+    options="-jar logstash-1.1.1-monolithic.jar"
+
+    # NOTE: add -vvv (very very verbose for debugging) or other logstash options here
+    args="agent -f logstash.conf"
+
+    echo "Starting logstash-server ..."
+    nohup java $options $args >> $LOGFILE 2>&1 &
+}
+
+stop()
+{
+    PID=`ps -ef | awk '/java/&&/logstash/&&!/awk/ {print $2}'`
+    echo "Stopping logstash-server ($PID) ..."
+    kill $PID
+    sleep 5
+    kill -9 $PID
+}
+
+restart()
+{
+    echo "Restarting logstash-server ..."
+    stop
+    start
+}
+
+case "$CMD" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    restart)
+        restart
+        ;;
+    *)
+        echo "Usage $0 {start\|stop\|restart}"
+        RETVAL=1
+esac
+
